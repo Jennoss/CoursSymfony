@@ -8,32 +8,32 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AuthController extends AbstractController
 {
-    #[Route('/auth/login', name: 'app_login')]
+    #[Route('/auth/login', name: 'auth.login')]
     public function login(): Response
     {
         return $this->render('auth/login.html.twig');
     }
 
 
-    #[Route('/auth/forgot-password', name: 'app_forgot')]
+    #[Route('/auth/forgot-password', name: 'auth.forgot-password')]
     public function forgot(): Response
     {
         return $this->render('auth/forgot.html.twig');
     }
 
-    #[Route('/auth/register', name: 'app_register')]
+    #[Route('/auth/register', name: 'auth.register')]
     public function register(): Response
     {
         return $this->render('auth/register.html.twig');
     }
 
-    #[Route('/auth/confirm-account', name: 'app_reset')]
+    #[Route('/auth/confirm-account', name: 'auth.confirm-account')]
     public function reset(): Response
     {
         return $this->render('auth/confirm.html.twig');
     }
 
-    #[Route('/auth/reset-password', name: 'app_logout')]
+    #[Route('/auth/reset-password', name: 'auth.reset-password')]
     public function logout(): Response
     {
         return $this->render('auth/reset.html.twig');
