@@ -1,19 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/admin')]
-#[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
-    #[Route(path: '/', name: 'admin_homepage')]
+    #[Route(path: '/', name: 'admin')]
     public function homepage(): Response
     {
         return $this->render('admin/homepage.html.twig');
@@ -31,8 +27,8 @@ class AdminController extends AbstractController
         return $this->render('admin/admin_add_films.html.twig');
     }
 
-    #[Route(path: '/movies/users', name: 'admin_users')]
-    public function movies_users(): Response
+    #[Route(path: '/users', name: 'admin_users')]
+    public function users(): Response
     {
         return $this->render('admin/admin_users.html.twig');
     }

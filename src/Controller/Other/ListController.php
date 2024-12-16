@@ -1,23 +1,45 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controller\Other;
 
+use App\Entity\PlaylistSubscription;
+use App\Repository\PlaylistRepository;
+use App\Repository\PlaylistSubscriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ListController extends AbstractController
 {
-    #[Route(path: '/lists', name: 'list')]
-    #[IsGranted('ROLE_USER')]
-    public function show(): Response
+    #[Route(path: '/lists', name: 'show_my_list')]
+    public function show(
+        PlaylistRepository $playlistRepository,
+        PlaylistSubscriptionRepository $playlistSubscriptionRepository,
+        Request $request,
+    ): Response
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('homepage');
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
         }
-        return $this->render('other/lists.html.twig');
+
+        $playlistId = $request->query->get('playlist');
+
+        if ($playlistId) {
+            $playlist = $playlistRepository->find($playlistId);
+        } else {
+            $playlist = null;
+        }
+
+        $playlists = $playlistRepository->findAll();
+        $subscribedPlaylists = $playlistSubscriptionRepository->findBy(['subscriber' => $user]);
+
+        return $this->render('other/lists.html.twig', [
+            'playlists' => $playlists,
+            'subscribedPlaylists' => $subscribedPlaylists,
+            'activePlaylist' => $playlist,
+        ]);
     }
 }
